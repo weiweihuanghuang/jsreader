@@ -70,8 +70,6 @@ var SpeedReader = (function()
     var resumeString = "\u2551\u2551";
     var goBackString = "\u25c4\u25c4";
     var goForwardString = "\u25ba\u25ba";
-    var goSlowerString = "\u25bc";
-    var goFasterString = "\u25b2";
 
     // Letters, and their corresponding value scores, to use when choosing which letter will be the highlight
     // letter within a word. Typically, vowels score a 5, and consonants are a 3. The letter's value is
@@ -238,8 +236,6 @@ var SpeedReader = (function()
     var pauseResumeButton;      // The button that pauses and resumes the reader.
     var goBackButton;           // The Go Back button.
     var goForwardButton;        // The Go Forward button.
-    var slowerButton;           // The Slower button.
-    var fasterButton;           // The Faster button.
     var hideButtonsCheckBox;    // The checkbox to also hide or unhide the control buttons while reading.
     var alsoTextSpan;           // The text span for the "Also hide buttons" text, to give it the appearance of being disabled.
     var inputTextAreaDiv;       // The div that contains the textarea and other elements to hide when reading.
@@ -756,48 +752,6 @@ var SpeedReader = (function()
     }
 
 
-    // Faster button. Increases the words per minute by 5% in multiples of 5.
-
-    var fasterReader = function()
-    {
-        var speed = parseInt(speedInputElement.value, 10);
-        speed = Math.floor(speed / 5);
-        speed = Math.max(speed + 1, Math.floor(1.05 * speed));
-        speed = speed * 5;
-        speed = (speed > max_speed) ? max_speed : speed;
-        speedInputElement.value = speed;
-        timerDelay = Math.floor(60000 / speed);
-
-        // If the reader is paused, reselect the word in the text area.
-        if (isPaused)
-        {
-            inputTextArea.focus();
-            selectWordInTextArea(wordStart, textIndex);
-        }
-    };
-
-
-    // Slower button. Decreases the word per minute by just over 5% in multiples of 5.
-
-    var slowerReader = function()
-    {
-        var speed = parseInt(speedInputElement.value, 10);
-        speed = Math.floor(speed / 5);
-        speed = Math.floor(0.953 * speed);
-        speed = speed * 5;
-        speed = (speed < min_speed) ? min_speed : speed;
-        speedInputElement.value = speed;
-        timerDelay = Math.floor(60000 / speed);
-
-        // If the reader is paused, reselect the word in the text area.
-        if (isPaused)
-        {
-            inputTextArea.focus();
-            selectWordInTextArea(wordStart, textIndex);
-        }
-    };
-
-
     // Go Back button. Searches backwards one second, then searches to find the beginning of the previous sentence.
 
     var goBackReader = function()
@@ -954,17 +908,10 @@ var SpeedReader = (function()
                 goBackReader();
                 break;
 
-            case 38: // Up Arrow.
-                fasterReader();
-                break;
-
             case 39: // Right Arrow.
                 goForwardReader();
                 break;
 
-            case 40: // Down Arrow.
-                slowerReader();
-                break;
             }
 
             // Prevent these keys from affecting the display.
@@ -995,8 +942,6 @@ var SpeedReader = (function()
         pauseResumeButton       = document.getElementById("pauseResumeButton");
         goBackButton            = document.getElementById("goBackButton");
         goForwardButton         = document.getElementById("goForwardButton");
-        slowerButton            = document.getElementById("slowerButton");
-        fasterButton            = document.getElementById("fasterButton");
         hideButtonsCheckBox     = document.getElementById("hideButtons");
         alsoTextSpan            = document.getElementById("alsoTextSpan");
         inputTextAreaDiv        = document.getElementById("inputTextAreaDiv");
@@ -1012,8 +957,6 @@ var SpeedReader = (function()
             pauseResumeButton.addEventListener("click", pauseResumeReader, false);
             goBackButton.addEventListener("click", goBackReader, false);
             goForwardButton.addEventListener("click", goForwardReader, false);
-            slowerButton.addEventListener("click", slowerReader, false);
-            fasterButton.addEventListener("click", fasterReader, false);
         }
         else
         {
@@ -1026,8 +969,6 @@ var SpeedReader = (function()
                 pauseResumeButton.attachEvent("click", pauseResumeReader);
                 goBackButton.attachEvent("click", goBackReader);
                 goForwardButton.attachEvent("click", goForwardReader);
-                slowerButton.attachEvent("click", slowerReader);
-                fasterButton.attachEvent("click", fasterReader);
             }
         }
 
@@ -1059,8 +1000,6 @@ var SpeedReader = (function()
         pauseResumeReader:      pauseResumeReader,
         goBackReader:           goBackReader,
         goForwardReader:        goForwardReader,
-        slowerReader:           slowerReader,
-        fasterReader:           fasterReader,
 
         highlightCurveValue:    highlightCurveValue,
         highlightLetters:       highlightLetters,
