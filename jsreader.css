@@ -76,12 +76,6 @@ body
   font-family:monospace;
 }
 
-#speedAndCheckBoxesDiv
-{
-  margin: 0px auto 0px auto;
-  text-align:center;
-}
-
 textarea
 {
     border:1px solid #999999;

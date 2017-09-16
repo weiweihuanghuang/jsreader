@@ -229,7 +229,7 @@ var SpeedReader = (function()
     var progressBarBaseDiv;     // The fixed part of the progress bar.
     var progressBarDiv;         // The variable part of the progress bar.
     var inputTextArea;          // The textarea that stores the text to read.
-    var speedInputElement;      // The Word per minute textbox.
+    var speedInputElement = 500;// The Word per minute textbox.
     var startStopButton;        // The button that starts and stops the reader.
     var pauseResumeButton;      // The button that pauses and resumes the reader.
     var alsoTextSpan;           // The text span for the "Also hide buttons" text, to give it the appearance of being disabled.
@@ -636,7 +636,7 @@ var SpeedReader = (function()
         //                 0.15:                0.4,                 2.5
         //                 0.20:                0.2,                 3.0
 
-        timerDelay = Math.floor(60000 / speedInputElement.value);
+        timerDelay = Math.floor(60000 / speedInputElement);
         timerDelaySlope = timerDelaySlopeSingle;
         timerDelayOffset = timerDelaySlope * (-5) + 1;
 
@@ -645,8 +645,6 @@ var SpeedReader = (function()
         startStopButton.value = stopString;
         inputTextArea.readOnly = true;
         inputTextArea.className = "UIInputReadOnly";
-        speedInputElement.readOnly = false;
-        speedInputElement.className = "UIInputReadOnly";
         wordCount = 0;
         timeSpentPaused = 0;
         timeStartReading = new Date().getTime();
@@ -686,8 +684,6 @@ var SpeedReader = (function()
         // Set the textarea and the words per minute textbox to read-only.
         inputTextArea.readOnly = false;
         inputTextArea.className = "UIInput";
-        speedInputElement.readOnly = false;
-        speedInputElement.className = "UIInput";
 
         // Set the values to the beginning of the text.
         textIndex = 0;
@@ -753,7 +749,7 @@ var SpeedReader = (function()
     {
         if (isPlaying)
         {
-            if (document.activeElement === inputTextArea || document.activeElement === speedInputElement)
+            if (document.activeElement === inputTextArea)
             {
                 if (event.keyCode === 27 || event.keyCode === 32 || event.keyCode === 37 || event.keyCode === 38 || event.keyCode === 39 || event.keyCode === 40)
                 {
@@ -780,7 +776,6 @@ var SpeedReader = (function()
         progressBarBaseDiv      = document.getElementById("progressBarBaseDiv");
         progressBarDiv          = document.getElementById("progressBarDiv");
         inputTextArea           = document.getElementById("inputTextArea");
-        speedInputElement       = document.getElementById("speedInputElement");
         startStopButton         = document.getElementById("startStopButton");
         pauseResumeButton       = document.getElementById("pauseResumeButton");
         alsoTextSpan            = document.getElementById("alsoTextSpan");
