@@ -1,7 +1,7 @@
 @font-face {
-  font-family: 'RotisSemiSansStd';
-  src:  url('RotisSemiSansStd-Extrabold.woff2') format('woff2'),
-        url('RotisSemiSansStd-Extrabold.woff') format('woff');
+  font-family: 'RotisSemiSansStdMono';
+  src:  url('RotisSemiSansStdMono-Regular.woff2') format('woff2'),
+        url('RotisSemiSansStdMono-Regular.woff') format('woff');
 }
 
 body
@@ -31,7 +31,7 @@ body
 { 
   text-align:left; 
   font-size:42px; 
-  font-family:RotisSemiSansStd;
+  font-family:RotisSemiSansStdMono;
    color:#FFF
 }
 
@@ -39,7 +39,7 @@ body
 { 
   text-align:left; 
   font-size:42px; 
-  font-family:RotisSemiSansStd;
+  font-family:RotisSemiSansStdMono;
    color:#FFF;
 }
 

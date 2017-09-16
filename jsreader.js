@@ -52,7 +52,7 @@ var SpeedReader = (function()
     var wordCount = 0;              // The number of words that have been displayed. Used to calculate the words per minute.
 
     var max_word_length = 13;       // Maximum word length to display. Longer words are hyphenated.
-    var max_padding = 8;            // Maximum number of non-breaking spaces to add to the front of a displayed word.
+    var max_padding = 4;            // Maximum number of non-breaking spaces to add to the front of a displayed word.
     var max_speed = 2500;           // Arbitrary maximum number of words per minute to display.
     var min_speed = 50;             // Arbitrary minimum number of words per minute.
     var hyphenChars = "-\u2012\u2013\u2014\u2015\u2053";    // List of hyphen characters.
