@@ -246,7 +246,6 @@ var SpeedReader = (function()
     var inputTextAreaDiv;       // The div that contains the textarea and other elements to hide when reading.
     var controlButtons;         // The div that contains the control buttons. Allows control buttons to be hidden while reading.
     var multiWordCheckBox;      // The checkbox to allow display of more than one word at a time.
-    var wpmDisplay;             // The span to display the words per minute.
 
     //////////
     // Functions.
@@ -681,7 +680,6 @@ var SpeedReader = (function()
         wordCount = 0;
         timeSpentPaused = 0;
         timeStartReading = new Date().getTime();
-        wpmDisplay.innerHTML = "Calculating ...";
 
         // Immediately display the first word.
         wordUpdateTimer = setTimeout(function () { updateWord(); }, 0);
@@ -1034,7 +1032,6 @@ var SpeedReader = (function()
         inputTextAreaDiv        = document.getElementById("inputTextAreaDiv");
         controlButtons          = document.getElementById("controlButtons");
         multiWordCheckBox       = document.getElementById("multiWordCheckBox");
-        wpmDisplay              = document.getElementById("wpmDisplay");
 
         // Add event handlers
         if (document.addEventListener)
