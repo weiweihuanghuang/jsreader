@@ -696,28 +696,6 @@ var SpeedReader = (function()
         controlButtons.style.visibility = "visible";
     }
 
-    // Suppresses specific keyboard input in the textarea and speed input elements while paused.
-    // Allows keys to be used while maintaining the selection in the text area.
-
-    var keypressInput = function(event)
-    {
-        if (isPlaying)
-        {
-            if (document.activeElement === inputTextArea)
-            {
-                if (event.keyCode === 27 || event.keyCode === 32 || event.keyCode === 37 || event.keyCode === 38 || event.keyCode === 39 || event.keyCode === 40)
-                {
-                    // NOTE: If I want to support IE before 9, I have to do things a bit differently, but this is supposed to work everywhere else.
-                    //       Details: http://stackoverflow.com/questions/5963669/whats-the-difference-between-event-stoppropagation-and-event-preventdefault
-                    event.preventDefault();
-                    event.stopPropagation();
-                    event.cancelBubble = true;
-                    return false;
-                }
-            }
-        }
-    };
-
 
     // Initializes the speed reader.
 
