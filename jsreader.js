@@ -46,7 +46,6 @@ var SpeedReader = (function()
     var isTextAreaHidden = false;   // true if the textarea is hidden while reading; otherwise false.
     var areButtonsHidden = false;   // true if the control buttons are hidden while reading; otherwise false.
     var isInFirefox;                // true if this is running in Firefox; otherwise, false.
-    var multiWordDisplay;           // true to display more than one word at a time; otherwise, false.
     var timeStartPause;             // The time when a pause began.
     var timeSpentPaused = 0;        // The time spent paused in milliseconds. Used to calculate the words per minute.
     var timeStartReading;           // The time when reading began in milliseconds from Jan 1, 1970. Used to calculate the words per minute.
@@ -245,7 +244,6 @@ var SpeedReader = (function()
     var alsoTextSpan;           // The text span for the "Also hide buttons" text, to give it the appearance of being disabled.
     var inputTextAreaDiv;       // The div that contains the textarea and other elements to hide when reading.
     var controlButtons;         // The div that contains the control buttons. Allows control buttons to be hidden while reading.
-    var multiWordCheckBox;      // The checkbox to allow display of more than one word at a time.
 
     //////////
     // Functions.
@@ -382,34 +380,16 @@ var SpeedReader = (function()
                     {
                         break;
                     }
-
-                    if (multiWordDisplay && firstWordFound === false)
-                    {
-                        ++wordCount;
-                        firstWordFound = true;
-                        firstWordEnd = textIndex + 1;
-                    }
-                    else
-                    {
-                        // Return the word with its hyphen.
-                        ++wordCount;
-                        return text.substr(wordStart, textIndex - wordStart + 1);
-                    }
+    
+                    // Return the word with its hyphen.
+                    ++wordCount;
+                    return text.substr(wordStart, textIndex - wordStart + 1);
                 }
                 else
                 {
-                    if (multiWordDisplay && firstWordFound === false)
-                    {
-                        ++wordCount;
-                        firstWordFound = true;
-                        firstWordEnd = textIndex;
-                    }
-                    else
-                    {
-                        // Return the word with its hyphen.
-                        ++wordCount;
-                        return text.substr(wordStart, textIndex - wordStart);
-                    }
+                    // Return the word with its hyphen.
+                    ++wordCount;
+                    return text.substr(wordStart, textIndex - wordStart);
                 }
             }
         }
@@ -655,7 +635,6 @@ var SpeedReader = (function()
         stopReader();
 
         text = inputTextArea.value;
-        multiWordDisplay = multiWordCheckBox.checked;
 
         // To increase the amount of time a long word is displayed, increase the value of timerDelaySlope.
         //
@@ -667,7 +646,7 @@ var SpeedReader = (function()
         //                 0.20:                0.2,                 3.0
 
         timerDelay = Math.floor(60000 / speedInputElement.value);
-        timerDelaySlope = multiWordDisplay ? timerDelaySlopeMulti : timerDelaySlopeSingle;
+        timerDelaySlope = timerDelaySlopeSingle;
         timerDelayOffset = timerDelaySlope * (-5) + 1;
 
         // Set the values to start playing the reader.
@@ -743,8 +722,7 @@ var SpeedReader = (function()
                 // Resume playing the reader.
                 pauseResumeButton.value = pauseString;
                 isPaused = false;
-                multiWordDisplay = multiWordCheckBox.checked;
-                timerDelaySlope = multiWordDisplay ? timerDelaySlopeMulti : timerDelaySlopeSingle;
+                timerDelaySlope = timerDelaySlopeSingle;
                 timeSpentPaused += new Date().getTime() - timeStartPause;
 
                 // Immediately display the next word.
@@ -921,14 +899,6 @@ var SpeedReader = (function()
     };
 
 
-    // Handles the check and uncheck events for the multi word checkbox.
-
-    var multiWordCheckBoxOnChange = function(event)
-    {
-        multiWordDisplay = multiWordCheckBox.checked;
-    }
-
-
     // Suppresses specific keyboard input in the textarea and speed input elements while paused.
     // Allows keys to be used while maintaining the selection in the text area.
 
@@ -1031,7 +1001,6 @@ var SpeedReader = (function()
         alsoTextSpan            = document.getElementById("alsoTextSpan");
         inputTextAreaDiv        = document.getElementById("inputTextAreaDiv");
         controlButtons          = document.getElementById("controlButtons");
-        multiWordCheckBox       = document.getElementById("multiWordCheckBox");
 
         // Add event handlers
         if (document.addEventListener)
@@ -1045,7 +1014,6 @@ var SpeedReader = (function()
             goForwardButton.addEventListener("click", goForwardReader, false);
             slowerButton.addEventListener("click", slowerReader, false);
             fasterButton.addEventListener("click", fasterReader, false);
-            multiWordCheckBox.addEventListener("change", multiWordCheckBoxOnChange, false);
         }
         else
         {
@@ -1060,7 +1028,6 @@ var SpeedReader = (function()
                 goForwardButton.attachEvent("click", goForwardReader);
                 slowerButton.attachEvent("click", slowerReader);
                 fasterButton.attachEvent("click", fasterReader);
-                multiWordCheckBox.attachEvent("change", multiWordCheckBoxOnChange);
             }
         }
 
