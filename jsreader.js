@@ -1,5 +1,3 @@
-<script type="text/javascript">
-
 /*!
 The MIT License (MIT)
 
@@ -309,11 +307,6 @@ var SpeedReader = (function()
             // Select the word in the text area.
             selectWordInTextArea(wordStart, textIndex);
 
-            // Update the progress bar.
-            updateProgressBar(textIndex, text.length);
-            
-            // Display the words per minute.
-            displayWordsPerMinute();
         }
     };
 
@@ -355,36 +348,6 @@ var SpeedReader = (function()
 
         inputTextArea.setSelectionRange(start, end);
     };
-
-
-    // Updates the progress bar.
-    // Param: progress. The progress toward the limit.
-    // Param: limit. The limit of progress to display.
-
-    var updateProgressBar = function(progress, limit)
-    {
-        var divWidth = Math.floor((progress / limit) * progressBarBaseDiv.clientWidth);
-        progressBarDiv.setAttribute("style", "width:" + divWidth + "px");
-    };
-    
-    
-    // Calculates and displays the current reading speed in words per minute.
-    
-    var displayWordsPerMinute = function()
-    {
-        // Only display words per minute after 20 words (40 for multiWordDisplayhave been read.
-        if ((!multiWordDisplay && wordCount > 20) || (multiWordDisplay && wordCount > 40))
-        {
-            // Calculate the time spent reading, without counting the time paused.
-            var timeSpentReading = new Date().getTime() - timeStartReading - timeSpentPaused;
-            
-            // Calculate the words per minute to the first decimal place.
-            var wpm = Math.floor(wordCount * 1000 * 60 * 10 / timeSpentReading ) / 10;
-            
-            // Display the words per minute.
-            wpmDisplay.innerHTML = wpm;
-        }
-    }
 
 
     // Parses the string to identify the next word to display.
@@ -767,7 +730,6 @@ var SpeedReader = (function()
         // Set the values to the beginning of the text.
         textIndex = 0;
         wordStart = 0;
-        updateProgressBar(0, 100);
         
         // Set the text of the buttons to the stopped state.
         pauseResumeButton.value = pauseString;
@@ -1207,5 +1169,3 @@ var SpeedReader = (function()
 // Initialize the speed reader.
 
 window.onload = SpeedReader.init;
-
-</script>
