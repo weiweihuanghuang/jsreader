@@ -291,49 +291,7 @@ var SpeedReader = (function()
             // Display the word with its hightlight.
             outputTextElement.innerHTML = padAndHighlightWord(word);
 
-            // Select the word in the text area.
-            selectWordInTextArea(wordStart, textIndex);
-
         }
-    };
-
-
-    // Selects the word in the textArea.
-    // Param: start. Starting point of the selection.
-    // Param: end. ending point of the selection.
-
-    var selectWordInTextArea = function(start, end)
-    {
-        inputTextArea.focus();
-
-        // If this isn't Firefox, scroll the textArea so the selected word is visible.
-        //   This happens automatically in Firefox.
-        if (!isInFirefox)
-        {
-            // Select the word in the textarea.
-
-            // Save the text.
-            var originalText = inputTextArea.value;
-
-            // Put in the text before the current word.
-            inputTextArea.value = originalText.substring(0, start);
-
-            // Find the right place to scroll to.
-            inputTextArea.scrollTop = 10000000; // Large enough, I hope.
-            var currentScrollTop = inputTextArea.scrollTop;
-
-            // Restore the original text.
-            inputTextArea.value = originalText;
-
-            // Scroll to the right place.
-            if (currentScrollTop > 0)
-            {
-                // Put the selection at the lower fourth of the displayed textArea.
-                inputTextArea.scrollTop = currentScrollTop + (Math.floor(inputTextArea.clientHeight / 4));
-            }
-        }
-
-        inputTextArea.setSelectionRange(start, end);
     };
 
 
@@ -723,7 +681,6 @@ var SpeedReader = (function()
                 isPaused = true;
                 pauseResumeButton.value = resumeString;
                 showControls();
-                selectWordInTextArea(wordStart, textIndex);
             }
         }
     };
