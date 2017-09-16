@@ -226,13 +226,10 @@ var SpeedReader = (function()
     var mainDiv;                // The main div for the page.
     var outputDiv;              // The div for the display word.
     var outputTextElement;      // The span for the display word.
-    var progressBarBaseDiv;     // The fixed part of the progress bar.
-    var progressBarDiv;         // The variable part of the progress bar.
     var inputTextArea;          // The textarea that stores the text to read.
-    var speedInputElement = 500;// The Word per minute textbox.
+    var speedInputElement = 500;// The Word per minute setting.
     var startStopButton;        // The button that starts and stops the reader.
     var pauseResumeButton;      // The button that pauses and resumes the reader.
-    var alsoTextSpan;           // The text span for the "Also hide buttons" text, to give it the appearance of being disabled.
     var inputTextAreaDiv;       // The div that contains the textarea and other elements to hide when reading.
     var controlButtons;         // The div that contains the control buttons. Allows control buttons to be hidden while reading.
 
@@ -730,12 +727,9 @@ var SpeedReader = (function()
         mainDiv                 = document.getElementById("mainDiv");
         outputDiv               = document.getElementById("outputDiv");
         outputTextElement       = document.getElementById("outputTextElement");
-        progressBarBaseDiv      = document.getElementById("progressBarBaseDiv");
-        progressBarDiv          = document.getElementById("progressBarDiv");
         inputTextArea           = document.getElementById("inputTextArea");
         startStopButton         = document.getElementById("startStopButton");
         pauseResumeButton       = document.getElementById("pauseResumeButton");
-        alsoTextSpan            = document.getElementById("alsoTextSpan");
         inputTextAreaDiv        = document.getElementById("inputTextAreaDiv");
         controlButtons          = document.getElementById("controlButtons");
 
