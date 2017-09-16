@@ -769,47 +769,6 @@ var SpeedReader = (function()
     };
 
 
-    // Suppresses specific keyboard input in the textarea and speed input elements while paused.
-    // Allows keys to be used while maintaining the selection in the text area.
-
-    var keydownInput = function(event)
-    {
-        // Take keyboard input only when the focus is on the body.
-        if (isPlaying)
-        {
-            // Take the focus away from wherever it is. This puts the focus on document.body.
-            document.activeElement.blur();
-
-            switch (event.keyCode)
-            {
-            case 27:
-                stopReader();
-                break;
-
-            case 32: // Spacebar.
-                if (textIndex !== 0)
-                {
-                    pauseResumeReader();
-                }
-                else
-                {
-                    startReader();
-                }
-                break;
-            }
-
-            // Prevent these keys from affecting the display.
-            if (event.keyCode === 27 || event.keyCode === 32 || event.keyCode === 37 || event.keyCode === 38 || event.keyCode === 39 || event.keyCode === 40)
-            {
-                event.preventDefault();
-                event.stopPropagation();
-                event.cancelBubble = true;
-                return false;
-            }
-        }
-    };
-
-
     // Initializes the speed reader.
 
     var init = function()
@@ -832,8 +791,6 @@ var SpeedReader = (function()
         if (document.addEventListener)
         {
             // Works with all browsers except IE before version 9.
-            document.addEventListener("keydown", keydownInput, false);
-            document.addEventListener("keypress", keypressInput, false);
             startStopButton.addEventListener("click", startStopReader, false);
             pauseResumeButton.addEventListener("click", pauseResumeReader, false);
         }
@@ -842,8 +799,6 @@ var SpeedReader = (function()
             // IE before version 9.
             if (document.attachEvent)
             {
-                document.attachEvent("keydown", keydownInput);
-                document.attachEvent("keypress", keypressInput);
                 startStopButton.attachEvent("click", startStopReader);
                 pauseResumeButton.attachEvent("click", pauseResumeReader);
             }
@@ -866,16 +821,13 @@ var SpeedReader = (function()
         setStopState();
     };
 
-
     return {
         // Declare public members.
 
         init:                   init,
-        keydownInput:           keydownInput,
-        keypressInput:          keypressInput,
         startStopReader:        startStopReader,
         pauseResumeReader:      pauseResumeReader,
-        
+
         highlightCurveValue:    highlightCurveValue,
         highlightLetters:       highlightLetters,
         highlightLetterValue:   highlightLetterValue,
