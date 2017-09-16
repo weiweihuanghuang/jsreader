@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'RotisSemiSansStd';
-  src: url('RotisSemiSansStd-Extrabold.woff2') format('woff2'),
-  src: url('RotisSemiSansStd-Extrabold.woff') format('woff');
+  src:  url('RotisSemiSansStd-Extrabold.woff2') format('woff2'),
+        url('RotisSemiSansStd-Extrabold.woff') format('woff');
 }
 
 body
