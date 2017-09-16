@@ -68,8 +68,6 @@ var SpeedReader = (function()
     var stopString = "\u25a0";
     var pauseString = "\u258c\u2590";
     var resumeString = "\u2551\u2551";
-    var goBackString = "\u25c4\u25c4";
-    var goForwardString = "\u25ba\u25ba";
 
     // Letters, and their corresponding value scores, to use when choosing which letter will be the highlight
     // letter within a word. Typically, vowels score a 5, and consonants are a 3. The letter's value is
@@ -234,9 +232,6 @@ var SpeedReader = (function()
     var speedInputElement;      // The Word per minute textbox.
     var startStopButton;        // The button that starts and stops the reader.
     var pauseResumeButton;      // The button that pauses and resumes the reader.
-    var goBackButton;           // The Go Back button.
-    var goForwardButton;        // The Go Forward button.
-    var hideButtonsCheckBox;    // The checkbox to also hide or unhide the control buttons while reading.
     var alsoTextSpan;           // The text span for the "Also hide buttons" text, to give it the appearance of being disabled.
     var inputTextAreaDiv;       // The div that contains the textarea and other elements to hide when reading.
     var controlButtons;         // The div that contains the control buttons. Allows control buttons to be hidden while reading.
@@ -751,108 +746,6 @@ var SpeedReader = (function()
         controlButtons.style.visibility = "visible";
     }
 
-
-    // Go Back button. Searches backwards one second, then searches to find the beginning of the previous sentence.
-
-    var goBackReader = function()
-    {
-        if (isPlaying || !isPaused)
-        {
-            // Go back approximately one second, then search for the start of that sentence.
-            var wordsPerSecond = 1000 / timerDelay;
-            var goBackLength = Math.floor(wordsPerSecond * 6); // Words per second, times an estimate of 6 characters per word.
-            var index = Math.max(0, textIndex - goBackLength);
-
-            // Find the beginning of this sentence, or 1000 characters, whichever comes first.
-            var searchForSentenceStart = 1000;
-            while (index > 0 && searchForSentenceStart-- > 0 && sentenceEnders.indexOf(text[index]) === -1)
-            {
-                --index;
-            }
-
-            if (index > 0)
-            {
-                // Find the next white space character.
-                while (index < text.length && wordBreakChars.indexOf(text[index]) === -1)
-                {
-                    ++index;
-                }
-            }
-
-            // Set textIndex to the new location.
-            textIndex = (index === 0) ? 0 : index + 1;
-
-            // If currently paused, display the word.
-            if (isPaused)
-            {
-                // Get the next word.
-                var word = nextWord();
-
-                // Display the word.
-                displayWord(word);
-            }
-        }
-    };
-
-
-    // Go Forward button. Skips ahead 5 seconds, then searches for the start of the next paragraph.
-
-    var goForwardReader = function()
-    {
-        if (isPlaying || !isPaused)
-        {
-            // Go forward approximately 5 seconds.
-            var wordsPerSecond = 1000 / timerDelay;
-            var goForwardLength = Math.floor(wordsPerSecond * 6 * 5); // Words per second, times an estimate of 6 characters per word, times 5.
-            var index = Math.min(text.length, textIndex + goForwardLength);
-
-            // Find the end of this paragraph.
-            var searchForParagraphEnd = 2000;
-            while (index < text.length && searchForParagraphEnd-- > 0 && paragraphEnders.indexOf(text[index]) === -1)
-            {
-                ++index;
-            }
-
-            // If the paragraph end was not found, find the end of this sentence.
-            if (searchForParagraphEnd <= 0)
-            {
-                // Find the end of this sentence.
-                var searchForSentenceEnd = 1000;
-                while (index < text.length && searchForSentenceEnd-- > 0 && sentenceEnders.indexOf(text[index]) === -1)
-                {
-                    ++index;
-                }
-
-                // Find the next white space character.
-                while (index < text.length && searchForSentenceEnd-- > 0 && wordBreakChars.indexOf(text[index]) === -1)
-                {
-                    ++index;
-                }
-            }
-
-            // Set textIndex to the new location.
-            if (index >= text.length)
-            {
-                stopReader();
-            }
-            else
-            {
-                textIndex = index;
-            }
-
-            // If currently paused, display the word.
-            if (isPaused)
-            {
-                // Get the next word.
-                var word = nextWord();
-
-                // Display the word.
-                displayWord(word);
-            }
-        }
-    };
-
-
     // Suppresses specific keyboard input in the textarea and speed input elements while paused.
     // Allows keys to be used while maintaining the selection in the text area.
 
@@ -903,15 +796,6 @@ var SpeedReader = (function()
                     startReader();
                 }
                 break;
-
-            case 37: // Left Arrow.
-                goBackReader();
-                break;
-
-            case 39: // Right Arrow.
-                goForwardReader();
-                break;
-
             }
 
             // Prevent these keys from affecting the display.
@@ -940,9 +824,6 @@ var SpeedReader = (function()
         speedInputElement       = document.getElementById("speedInputElement");
         startStopButton         = document.getElementById("startStopButton");
         pauseResumeButton       = document.getElementById("pauseResumeButton");
-        goBackButton            = document.getElementById("goBackButton");
-        goForwardButton         = document.getElementById("goForwardButton");
-        hideButtonsCheckBox     = document.getElementById("hideButtons");
         alsoTextSpan            = document.getElementById("alsoTextSpan");
         inputTextAreaDiv        = document.getElementById("inputTextAreaDiv");
         controlButtons          = document.getElementById("controlButtons");
@@ -955,8 +836,6 @@ var SpeedReader = (function()
             document.addEventListener("keypress", keypressInput, false);
             startStopButton.addEventListener("click", startStopReader, false);
             pauseResumeButton.addEventListener("click", pauseResumeReader, false);
-            goBackButton.addEventListener("click", goBackReader, false);
-            goForwardButton.addEventListener("click", goForwardReader, false);
         }
         else
         {
@@ -967,8 +846,6 @@ var SpeedReader = (function()
                 document.attachEvent("keypress", keypressInput);
                 startStopButton.attachEvent("click", startStopReader);
                 pauseResumeButton.attachEvent("click", pauseResumeReader);
-                goBackButton.attachEvent("click", goBackReader);
-                goForwardButton.attachEvent("click", goForwardReader);
             }
         }
 
@@ -998,9 +875,7 @@ var SpeedReader = (function()
         keypressInput:          keypressInput,
         startStopReader:        startStopReader,
         pauseResumeReader:      pauseResumeReader,
-        goBackReader:           goBackReader,
-        goForwardReader:        goForwardReader,
-
+        
         highlightCurveValue:    highlightCurveValue,
         highlightLetters:       highlightLetters,
         highlightLetterValue:   highlightLetterValue,
