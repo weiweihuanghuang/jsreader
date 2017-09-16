@@ -556,8 +556,6 @@ var SpeedReader = (function()
     // Combines the Start and Stop button actions into a single button.
     var startStopReader = function()
     {
-        inputTextArea.focus();
-
         // Because the IsPlaying flag gets set later, false means it's about to start playing
         if (isPlaying)
         {
@@ -574,8 +572,6 @@ var SpeedReader = (function()
 
     var startReader = function()
     {
-        // Put the focus on the text area.
-        inputTextArea.focus();
 
         // Stop the reader if it is paused.
         stopReader();
@@ -598,8 +594,6 @@ var SpeedReader = (function()
         // Set the values to start playing the reader.
         isPlaying = true;
         startStopButton.value = stopString;
-        inputTextArea.readOnly = true;
-        inputTextArea.className = "UIInputReadOnly";
         wordCount = 0;
         timeSpentPaused = 0;
         timeStartReading = new Date().getTime();
@@ -613,9 +607,6 @@ var SpeedReader = (function()
 
     var stopReader = function()
     {
-        inputTextArea.focus();
-        inputTextArea.setSelectionRange(0, 0);
-
         setStopState();
 
         // Clear the displayed word.
@@ -636,10 +627,6 @@ var SpeedReader = (function()
         isPlaying = false;
         isPaused = false;
 
-        // Set the textarea and the words per minute textbox to read-only.
-        inputTextArea.readOnly = false;
-        inputTextArea.className = "UIInput";
-
         // Set the values to the beginning of the text.
         textIndex = 0;
         wordStart = 0;
@@ -657,7 +644,6 @@ var SpeedReader = (function()
         // Pause only happens if the reader is playing.
         if (isPlaying)
         {
-            inputTextArea.focus();
 
             if (isPaused)
             {

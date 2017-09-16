@@ -1,3 +1,9 @@
+@font-face {
+  font-family: 'RotisSemiSansStd';
+  src: url('RotisSemiSansStd-Extrabold.woff2') format('woff2'),
+  src: url('RotisSemiSansStd-Extrabold.woff') format('woff');
+}
+
 body
 {
    background-color:#000
@@ -25,7 +31,7 @@ body
 { 
   text-align:left; 
   font-size:42px; 
-  font-family:monospace;
+  font-family:RotisSemiSansStd;
    color:#FFF
 }
 
@@ -33,7 +39,7 @@ body
 { 
   text-align:left; 
   font-size:42px; 
-  font-family:monospace;
+  font-family:RotisSemiSansStd;
    color:#FFF;
 }
 
@@ -53,7 +59,6 @@ body
   margin: 0px 6px 0px 6px;
   text-align:center; 
   font-size:32px; 
-  font-family:monospace;
 }
 
 #inputTextArea
