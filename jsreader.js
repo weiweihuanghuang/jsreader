@@ -677,24 +677,9 @@ var SpeedReader = (function()
                 timeStartPause = new Date().getTime();
                 isPaused = true;
                 pauseResumeButton.value = resumeString;
-                showControls();
             }
         }
     };
-
-
-    // Shows the text area and control buttons.
-
-    var showControls = function()
-    {
-        // Set the flags.
-        isTextAreaHidden = false;
-        areButtonsHidden = false;
-
-        // Change the visibility of the controls.
-        inputTextAreaDiv.style.visibility = "visible";
-        controlButtons.style.visibility = "visible";
-    }
 
 
     // Initializes the speed reader.
