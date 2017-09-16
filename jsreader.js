@@ -272,7 +272,9 @@ var SpeedReader = (function()
         }
         else
         {
-            setStopState();
+            // When words run out, startReader() again to loop back to beginning
+            // setStopState();
+            startReader()
         }
     };
 
